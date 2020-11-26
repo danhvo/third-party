@@ -20,11 +20,11 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler
 	@ResponseBody
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public Object handleConstraintViolationException(NotFoundException e, HttpServletRequest request,
-			HttpServletResponse response) {
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Object handleException(Exception e, HttpServletRequest request, HttpServletResponse response) {
 		log.error(e.getMessage(), e);
-		return ResponseDTO.builder().code("404").status("Not Found").message("Not Found").build();
+		return ResponseDTO.builder().code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+				.status(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()).message(e.getMessage()).build();
 	}
 
 }
