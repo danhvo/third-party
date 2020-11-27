@@ -1,7 +1,5 @@
 package com.danh.assignment.thirdparty.voucher;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.danh.assignment.thirdparty.dto.ResponseDTO;
+import com.danh.assignment.thirdparty.dto.VoucherDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,22 +21,25 @@ public class VoucherController {
 	private Random random = new Random();
 
 	@GetMapping(produces = { "application/json" }, path = "code")
-	public ResponseDTO<Object> getVoucherCode(@RequestParam(value = "slow", required = true) boolean slow,
+	public ResponseDTO<VoucherDTO> getVoucherCode(@RequestParam(value = "slow", required = true) boolean slow,
 			@RequestParam(value = "error", required = true) boolean error) throws InterruptedException {
 		log.info("Start getting Voucher Code!");
 		if (error) {
 			throw new RuntimeException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
 		}
-		Map<String, String> result = new HashMap<>();
+		VoucherDTO voucherDTO = VoucherDTO.builder().build();
 		boolean found = random.nextBoolean();
+		String message = "Not Found!";
 		if (found) {
-			result.put("code", String.valueOf(ThreadLocalRandom.current().nextLong(10000)));
+			voucherDTO.setCode(String.valueOf(ThreadLocalRandom.current().nextLong(10000)));
+			message = "Found!";
 		}
 
 		if (slow) {
 			Thread.sleep(3000L);
 		}
+		log.info("End getting Voucher Code!");
 
-		return ResponseDTO.builder().data(result).code(HttpStatus.OK.value()).status("Success").build();
+		return new ResponseDTO<VoucherDTO>("Success", HttpStatus.OK.value(), voucherDTO, message);
 	}
 }
