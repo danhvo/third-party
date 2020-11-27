@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.danh.assignment.thirdparty.dto.ResponseDTO;
 import com.danh.assignment.thirdparty.dto.VoucherDTO;
+import com.danh.assignment.thirdparty.utils.HostInforUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +40,14 @@ public class VoucherController {
 			Thread.sleep(3000L);
 		}
 		log.info("End getting Voucher Code!");
+		
+		ResponseDTO<VoucherDTO> response = new ResponseDTO<>();
+		response.setCode(HttpStatus.OK.value());
+		response.setData(voucherDTO);
+		response.setMessage(message);
+		response.setStatus("Success");
+		response.setHost(HostInforUtils.HOST_INFOR);
 
-		return new ResponseDTO<VoucherDTO>("Success", HttpStatus.OK.value(), voucherDTO, message);
+		return response;
 	}
 }
