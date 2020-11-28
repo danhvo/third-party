@@ -3,13 +3,13 @@
 This service provide function of getting a new voucher code for other banking or financial system.
 ### Installation
 
-Run ```mvn clean package``` to build a jar file.
+Haproxy version: 2.0.13
 
+Run ```mvn clean package``` to build a jar file.
 
 Run ```docker build -t nab/third-party .``` to build an image for this service
 
 ### Running service
-
 
 Run ```docker run --name voucher-service-1 --hostname voucher-service-1 -a nab/third-party``` to create and start a new container with running instance of this service.
 
