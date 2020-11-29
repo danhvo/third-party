@@ -35,7 +35,7 @@ Then run ``` sudo systemctl restart haproxy ``` to restart haproxy
 
 ### CURL
 ##### Getting voucher code
-curl --request GET {hostname_of_haproxy}/third-party/api/v1/code?slow={true or false}&error={true or false}
+curl --request GET "{hostname_of_haproxy}/third-party/api/v1/code?slow={true or false}&error={true or false}"
 
 1. slow: if this's true, a request will take a long time to receive the response.
 2. error: if this's true, a request will be failed, otherwise it will be successful.
